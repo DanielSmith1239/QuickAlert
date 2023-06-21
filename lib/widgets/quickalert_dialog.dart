@@ -44,7 +44,7 @@ class QuickAlert {
     String cancelBtnText = 'Cancel',
 
     /// Color for confirm button
-    Color confirmBtnColor = Colors.blue,
+    Color? confirmBtnColor,
 
     /// TextStyle for confirm button
     TextStyle? confirmBtnTextStyle,
@@ -53,13 +53,13 @@ class QuickAlert {
     TextStyle? cancelBtnTextStyle,
 
     /// Background Color for dialog
-    Color backgroundColor = Colors.white,
+    Color? backgroundColor,
 
     /// Color of title
-    Color titleColor = Colors.black,
+    Color? titleColor,
 
     /// Color of text
-    Color textColor = Colors.black,
+    Color? textColor,
 
     /// Barrier Color of dialog
     Color? barrierColor,

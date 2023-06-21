@@ -24,7 +24,7 @@ class QuickAlertButtons extends StatelessWidget {
     );
   }
 
-  Widget okayBtn(context) {
+  Widget okayBtn(BuildContext context) {
     final showCancelBtn = options!.type == QuickAlertType.confirm
         ? true
         : options!.showCancelBtn!;
@@ -43,7 +43,7 @@ class QuickAlertButtons extends StatelessWidget {
     }
   }
 
-  Widget cancelBtn(context) {
+  Widget cancelBtn(BuildContext context) {
     final showCancelBtn = options!.type == QuickAlertType.confirm
         ? true
         : options!.showCancelBtn!;
@@ -63,29 +63,27 @@ class QuickAlertButtons extends StatelessWidget {
   }
 
   Widget buildButton({
-    BuildContext? context,
+    required BuildContext context,
     required bool isOkayBtn,
     required String text,
     VoidCallback? onTap,
   }) {
     final btnText = Text(
       text,
-      style: defaultTextStyle(isOkayBtn),
+      style: defaultTextStyle(isOkayBtn, context),
     );
 
-    final okayBtn = MaterialButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      color: options!.confirmBtnColor ?? Theme.of(context!).primaryColor,
-      onPressed: onTap,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(7.5),
-          child: btnText,
-        ),
-      ),
-    );
+    final okayBtn = TextButton(
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(15.0),
+        // ),
+        // color: options!.confirmBtnColor ?? Theme.of(context!).primaryColor,
+        onPressed: onTap,
+        style: TextButton.styleFrom(
+            backgroundColor: options!.confirmBtnColor ??
+                Theme.of(context).colorScheme.primaryContainer,
+            textStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer)),
+        child: btnText);
 
     final cancelBtn = GestureDetector(
       onTap: onTap,
@@ -97,17 +95,14 @@ class QuickAlertButtons extends StatelessWidget {
     return isOkayBtn ? okayBtn : cancelBtn;
   }
 
-  TextStyle defaultTextStyle(bool isOkayBtn) {
-    final textStyle = TextStyle(
-      color: isOkayBtn ? Colors.white : Colors.grey,
-      fontWeight: FontWeight.w600,
-      fontSize: 18.0,
-    );
+  TextStyle defaultTextStyle(bool isOkayBtn, BuildContext context) {
+    final theme = Theme.of(context);
+    final textStyle = theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.onPrimaryContainer);
 
     if (isOkayBtn) {
-      return options!.confirmBtnTextStyle ?? textStyle;
+      return textStyle!.merge(options!.confirmBtnTextStyle);
     } else {
-      return options!.cancelBtnTextStyle ?? textStyle;
+      return textStyle!.merge(options!.cancelBtnTextStyle);
     }
   }
 }
